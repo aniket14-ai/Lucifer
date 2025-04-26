@@ -1,3 +1,4 @@
+// Setup Canvas
 const canvas = document.getElementById('background');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
@@ -10,15 +11,14 @@ class Particle {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.size = Math.random() * 3 + 1;
-    this.speedX = Math.random() * 1 - 0.5;
-    this.speedY = Math.random() * 1 - 0.5;
+    this.size = Math.random() * 2 + 1;
+    this.speedX = Math.random() * 2 - 1;
+    this.speedY = Math.random() * 2 - 1;
     this.color = colors[Math.floor(Math.random() * colors.length)];
   }
   update() {
     this.x += this.speedX;
     this.y += this.speedY;
-
     if (this.size > 0.2) this.size -= 0.02;
   }
   draw() {
@@ -38,10 +38,10 @@ function handleParticles() {
       const dx = particles[i].x - particles[j].x;
       const dy = particles[i].y - particles[j].y;
       const distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance < 100) {
+      if (distance < 120) {
         ctx.beginPath();
         ctx.strokeStyle = particles[i].color;
-        ctx.lineWidth = 0.5;
+        ctx.lineWidth = 0.3;
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(particles[j].x, particles[j].y);
         ctx.stroke();
@@ -57,21 +57,26 @@ function handleParticles() {
 }
 
 function animate() {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   handleParticles();
   requestAnimationFrame(animate);
 }
 
 window.addEventListener('mousemove', function(e) {
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 4; i++) {
     particles.push(new Particle(e.x, e.y));
   }
 });
 
+window.addEventListener('resize', function() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
 animate();
 
-// --- Audio Reactive Part ---
+// --- Audio Reactive System ---
 
 const audioUpload = document.getElementById('audio-upload');
 audioUpload.addEventListener('change', function() {
@@ -82,7 +87,7 @@ audioUpload.addEventListener('change', function() {
   const analyser = audioContext.createAnalyser();
   source.connect(analyser);
   analyser.connect(audioContext.destination);
-  analyser.fftSize = 256;
+  analyser.fftSize = 128;
   const bufferLength = analyser.frequencyBinCount;
   const dataArray = new Uint8Array(bufferLength);
 
@@ -90,8 +95,9 @@ audioUpload.addEventListener('change', function() {
 
   function animateAudio() {
     analyser.getByteFrequencyData(dataArray);
-    const bass = dataArray.slice(0, 10).reduce((a, b) => a + b) / 10;
-    canvas.style.transform = `scale(${1 + bass / 500})`;
+    const bass = dataArray.slice(0, 8).reduce((a, b) => a + b) / 8;
+    const scale = 1 + bass / 200;
+    canvas.style.transform = `scale(${scale}) rotate(${bass / 50}deg)`;
     requestAnimationFrame(animateAudio);
   }
 
