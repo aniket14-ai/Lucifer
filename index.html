@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cyberpunk Animation</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+<body class="bg-black overflow-hidden relative">
+
+  <!-- Canvas for particles + fire -->
+  <canvas id="background" class="absolute inset-0 w-full h-full"></canvas>
+
+  <!-- Main Text -->
+  <div class="relative z-10 flex flex-col justify-center items-center h-screen text-center text-white">
+    <h1 id="glitch-text" class="text-5xl md:text-7xl font-bold glitch tracking-widest">
+      WELCOME TO THE GRID
+    </h1>
+    <p class="mt-4 text-xl md:text-2xl text-purple-400">Cyberpunk x Hacker x Magic</p>
+  </div>
+
+  <!-- Audio Input -->
+  <input type="file" id="audio-upload" accept="audio/*" class="absolute top-4 right-4 z-20 bg-white text-black px-4 py-2 rounded">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
