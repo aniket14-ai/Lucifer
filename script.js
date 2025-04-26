@@ -182,3 +182,10 @@ audioUpload.addEventListener('change', function() {
 
   animateAudio();
 });
+
+// --- Hidden Gift for Anjali ---
+// Secret message that will appear in the console
+if (navigator.userAgent.includes("Windows")) {
+  console.log("%c🌸 Secret Gift for Anjali 🌸", "color: #ff69b4; font-size: 24px; font-weight: bold;");
+  console.log("%cYou are the code that runs my heart 💖. Open your soul to the cyber universe 🌌.", "color: #0ff;");
+}
